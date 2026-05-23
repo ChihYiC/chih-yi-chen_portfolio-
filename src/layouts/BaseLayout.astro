@@ -1,17 +1,17 @@
 ---
 // src/layouts/BaseLayout.astro
 import '../styles/global.css'; 
+// ✨ 1. 匯入 Footer 元件
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
 }
 
 const { title = "Chih Yi Chen | Integrated Marketer & UX Researcher" } = Astro.props;
-// 直接在這裡取得 base
 const base = import.meta.env.BASE_URL || "/"; 
 const faviconPath = base + "images/favicon.png";
 ---
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +20,7 @@ const faviconPath = base + "images/favicon.png";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <link rel="icon" type="image/png" href={faviconPath} />
-    </head>
+  </head>
   
   <body class="bg-surface text-slate font-body antialiased min-h-screen flex flex-col">
     <header class="w-full bg-white shadow-sm sticky top-0 z-50">
@@ -48,15 +48,7 @@ const faviconPath = base + "images/favicon.png";
       <slot />
     </main>
 
-    <footer class="w-full bg-white border-t border-slate/10 py-10">
-      <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-        <p class="text-sm text-slate/60 font-heading">© {new Date().getFullYear()} Chih Yi (Sophie) Chen.</p>
-        <div class="flex gap-6">
-          <a href="mailto:chih.yi.chen0814@gmail.com" class="text-primary hover:text-secondary"><i class="fa-regular fa-envelope text-xl"></i></a>
-          <a href="https://www.linkedin.com/in/chih-yi-chen0814" target="_blank" class="text-primary hover:text-secondary"><i class="fa-brands fa-linkedin-in text-xl"></i></a>
-          <a href="https://github.com/ChihYiC?tab=repositories" target="_blank" class="text-primary hover:text-secondary"><i class="fa-brands fa-github text-xl"></i></a>
-        </div>
-      </div>
-    </footer>
+    {/* ✨ 2. 使用剛剛建立的 Footer 元件替換原本的 footer 標籤 */}
+    <Footer />
   </body>
 </html>

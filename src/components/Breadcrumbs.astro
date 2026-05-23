@@ -1,0 +1,61 @@
+---
+// src/components/Breadcrumbs.astro
+
+const base = import.meta.env.BASE_URL;
+
+// 取得當前網址路徑 (排除 base url 的部分)
+const currentPath = Astro.url.pathname.replace(base, '/');
+// 移除開頭和結尾的斜線，並將路徑拆分成陣列
+const pathParts = currentPath.split('/').filter(Boolean);
+
+// 建立麵包屑資料陣列，第一項預設為 Home
+const breadcrumbs = [
+  { name: 'Home', url: base },
+];
+
+let accumulatedPath = base;
+
+// 依序處理路徑層級，建立對應的連結
+pathParts.forEach((part, index) => {
+  // 將路徑段落的首字母大寫，並將連字號轉為空白 (例如：ux-research -> Ux Research)
+  let formattedName = part
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, char => char.toUpperCase());
+
+  // 確保路徑組合正確
+  accumulatedPath = accumulatedPath.endsWith('/') 
+    ? accumulatedPath + part + '/' 
+    : accumulatedPath + '/' + part + '/';
+
+  // 如果是最後一個層級 (當前頁面)，則不加上連結
+  breadcrumbs.push({
+    name: formattedName,
+    url: index === pathParts.length - 1 ? null : accumulatedPath,
+  });
+});
+---
+
+<nav aria-label="Breadcrumb" class="mb-6">
+  <ol class="flex items-center space-x-2 text-sm text-slate/60 font-heading">
+    {breadcrumbs.map((crumb, index) => (
+      <li class="flex items-center">
+        {index > 0 && (
+          <svg class="w-4 h-4 mx-2 text-slate/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        )}
+        
+        {crumb.url ? (
+          <a href={crumb.url} class="hover:text-primary hover:underline transition-colors">
+            {crumb.name}
+          </a>
+        ) : (
+          <span class="text-slate font-medium" aria-current="page">
+            {/* 若層級名稱太長，可使用 truncate class 限制長度 */}
+            <span class="block truncate max-w-[200px] md:max-w-none">{crumb.name}</span>
+          </span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

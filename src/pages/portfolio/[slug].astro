@@ -2,8 +2,9 @@
 // src/pages/portfolio/[slug].astro
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-// ✨ 1. 新增這行：匯入我們等一下要建立的 Callout 元件
+// ✨ 1. 匯入功能元件
 import Callout from '../../components/Callout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 // 關鍵函式：在靜態打包時預先生成所有專案頁面
 export async function getStaticPaths() {
@@ -22,8 +23,8 @@ const base = import.meta.env.BASE_URL;
 
 <BaseLayout title={`${project.data.title} | Chih Yi Chen`}>
   <article class="max-w-4xl mx-auto py-12 px-6">
-    {/* 返回連結：使用 base 確保路徑正確 */}
-    <a href={base + 'portfolio'} class="text-secondary font-semibold hover:underline mb-8 block">← Back to Portfolio</a>
+    {/* ✨ 2. 引入麵包屑導覽，取代原本單一的返回連結 */}
+    <Breadcrumbs />
     
     <h1 class="text-4xl font-bold mb-6 text-primary">{project.data.title}</h1>
     
@@ -37,7 +38,7 @@ const base = import.meta.env.BASE_URL;
     )}
     
     <div class="prose prose-lg max-w-none text-slate">
-      {/* ✨ 2. 修改這行：將 Callout 元件註冊給 Content 解析器 */}
+      {/* ✨ 3. 將 Callout 元件註冊給 Content 解析器，支援後台自由調色盤 */}
       <Content components={{ Callout }} />
     </div>
   </article>

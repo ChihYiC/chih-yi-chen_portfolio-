@@ -6,7 +6,7 @@ import avatarImage from '../assets/avatar.png';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('portfolio');
-const base = import.meta.env.BASE_URL; // 統一定義 base 路徑，方便後續引用
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Home | Chih Yi Chen">
@@ -71,10 +71,10 @@ const base = import.meta.env.BASE_URL; // 統一定義 base 路徑，方便後�
       ) : (
         projects.map((project) => (
           <div class="min-w-[300px] md:min-w-[450px] snap-center">
-            <a href={base + `portfolio/${project.slug}`} class="group flex flex-col bg-white rounded-2xl shadow-sm border border-slate/5 overflow-hidden hover:shadow-md transition-all duration-300 h-full">
+            <a href={`${base}portfolio/${project.id}`} class="group flex flex-col bg-white rounded-2xl shadow-sm border border-slate/5 overflow-hidden hover:shadow-md transition-all duration-300 h-full">
               <div class="h-48 md:h-64 bg-accent/30 overflow-hidden relative">
                 {project.data.heroImage ? (
-                  <img src={project.data.heroImage.replace(/^\//, '')} alt={project.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={base + project.data.heroImage.replace(/^\//, '')} alt={project.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 ) : (
                   <div class="w-full h-full flex items-center justify-center text-primary/30 font-mono text-xs">No Image</div>
                 )}

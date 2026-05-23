@@ -1,0 +1,55 @@
+---
+// src/pages/blog/index.astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+// ✨ 1. 確保有這行匯入麵包屑元件
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+// 取得所有 blog 文章並依日期從新到舊排序
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="Blog | Chih Yi Chen">
+  <div class="max-w-5xl mx-auto py-12 px-6">
+    {/* ✨ 2. 把麵包屑放在這裡 (大標題的上方) */}
+    <Breadcrumbs />
+    
+    <header class="mb-12 mt-6">
+      <h1 class="text-4xl md:text-5xl font-bold text-primary mb-4">Blog & Insights</h1>
+      <p class="text-lg text-slate/70 max-w-2xl">Sharing my thoughts on UX research, human-computer interaction, and digital marketing.</p>
+    </header>
+    
+    {/* 文章卡片網格 */}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {sortedPosts.map((post) => (
+        <a href={`${base}blog/${post.id}`} class="group block bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate/10 flex flex-col h-full">
+          {post.data.heroImage && (
+            <div class="overflow-hidden h-56">
+              <img 
+                src={base + post.data.heroImage.replace(/^\//, '')} 
+                alt={post.data.title} 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          )}
+          <div class="p-6 flex flex-col flex-grow">
+            <time class="text-sm text-slate/50 font-heading mb-3 uppercase tracking-wider">
+              {new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+            </time>
+            <h2 class="text-2xl font-bold text-primary mb-3 group-hover:text-secondary transition-colors">
+              {post.data.title}
+            </h2>
+            {post.data.excerpt && (
+              <p class="text-slate/70 line-clamp-3 mb-4">{post.data.excerpt}</p>
+            )}
+            <div class="mt-auto pt-4 border-t border-slate/10 text-sm font-semibold text-secondary group-hover:underline">
+              Read Article →
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
