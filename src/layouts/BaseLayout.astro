@@ -1,13 +1,11 @@
 ---
 // src/layouts/BaseLayout.astro
 import '../styles/global.css'; 
-
-// 匯入 favicon
 import favicon from '../assets/favicon.png'; 
 
+// 顯式定義變數，避免編譯時無法解析物件屬性
+const faviconPath = favicon.src; 
 const { title = "Sophie Chen | UX Researcher & Designer" } = Astro.props;
-
-// 定義 base 路徑，自動對應 GitHub Pages 的子目錄
 const base = import.meta.env.BASE_URL;
 ---
 
@@ -16,42 +14,30 @@ const base = import.meta.env.BASE_URL;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
     <title>{title}</title>
-
-    <link rel="icon" type="image/png" href={favicon.src} />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-    
+    <link rel="icon" type="image/png" href={faviconPath} />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
   
-  <body class="bg-surface text-slate font-body antialiased selection:bg-accent selection:text-primary min-h-screen flex flex-col">
-    
+  <body class="bg-surface text-slate font-body antialiased min-h-screen flex flex-col">
     <header class="w-full bg-white shadow-sm sticky top-0 z-50">
       <nav class="max-w-5xl mx-auto px-6 py-6 flex justify-between items-center">
         
-        {/* 使用 base 變數確保點擊 Logo 回到首頁的路徑正確 */}
         <a href={base} class="flex items-center gap-3 group">
           <img 
-            src={favicon.src} 
+            src={faviconPath} 
             alt="Sophie Chen Logo" 
             class="w-10 h-10 rounded-full border border-slate/10 group-hover:scale-105 transition-transform"
           />
-          <span class="text-xl font-heading font-bold text-primary tracking-tight">
-            Chih Yi Chen.
-          </span>
+          <span class="text-xl font-heading font-bold text-primary tracking-tight">Chih Yi Chen.</span>
         </a>
 
-        {/* 導覽列連結：統一使用 base + '路徑' */}
         <ul class="flex gap-8 text-sm font-heading font-semibold text-slate">
-          <li><a href={base} class="hover:text-secondary transition-colors duration-200">Home</a></li>
-          <li><a href={base + 'about'} class="hover:text-secondary transition-colors duration-200">About</a></li>
-          <li><a href={base + 'portfolio'} class="hover:text-secondary transition-colors duration-200">UX Portfolio</a></li>
-          <li><a href={base + 'blog'} class="hover:text-secondary transition-colors duration-200">Blog</a></li>
-          <li><a href={base + 'contact'} class="hover:text-secondary transition-colors duration-200">Contact</a></li>
+          <li><a href={base} class="hover:text-secondary">Home</a></li>
+          <li><a href={base + 'about'} class="hover:text-secondary">About</a></li>
+          <li><a href={base + 'portfolio'} class="hover:text-secondary">UX Portfolio</a></li>
+          <li><a href={base + 'blog'} class="hover:text-secondary">Blog</a></li>
+          <li><a href={base + 'contact'} class="hover:text-secondary">Contact</a></li>
         </ul>
       </nav>
     </header>
@@ -62,21 +48,11 @@ const base = import.meta.env.BASE_URL;
 
     <footer class="w-full bg-white border-t border-slate/10 py-10">
       <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-        
-        <p class="text-sm text-slate/60 font-heading">
-          © {new Date().getFullYear()} Chih Yi (Sophie) Chen.
-        </p>
-
+        <p class="text-sm text-slate/60 font-heading">© {new Date().getFullYear()} Chih Yi (Sophie) Chen.</p>
         <div class="flex gap-6">
-          <a href="mailto:chih.yi.chen0814@gmail.com" class="text-primary hover:text-secondary transition-all hover:-translate-y-1">
-            <i class="fa-regular fa-envelope text-xl"></i>
-          </a>
-          <a href="https://www.linkedin.com/in/chih-yi-chen0814" target="_blank" class="text-primary hover:text-secondary transition-all hover:-translate-y-1">
-            <i class="fa-brands fa-linkedin-in text-xl"></i>
-          </a>
-          <a href="https://github.com/ChihYiC?tab=repositories" target="_blank" class="text-primary hover:text-secondary transition-all hover:-translate-y-1">
-            <i class="fa-brands fa-github text-xl"></i>
-          </a>
+          <a href="mailto:chih.yi.chen0814@gmail.com" class="text-primary hover:text-secondary"><i class="fa-regular fa-envelope text-xl"></i></a>
+          <a href="https://www.linkedin.com/in/chih-yi-chen0814" target="_blank" class="text-primary hover:text-secondary"><i class="fa-brands fa-linkedin-in text-xl"></i></a>
+          <a href="https://github.com/ChihYiC?tab=repositories" target="_blank" class="text-primary hover:text-secondary"><i class="fa-brands fa-github text-xl"></i></a>
         </div>
       </div>
     </footer>
