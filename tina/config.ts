@@ -1,44 +1,110 @@
 import { defineConfig } from "tinacms";
 
-const branch =
-  process.env.GITHUB_BRANCH ||
-  process.env.VERCEL_GIT_COMMIT_REF ||
-  process.env.HEAD ||
-  "main";
+// 自訂顏色提示框模板
+const calloutTemplate = {
+  name: "Callout",
+  label: "🎨 自訂顏色提示框",
+  fields: [
+    {
+      name: "color",
+      label: "選擇顏色 (HEX)",
+      type: "string",
+      ui: { component: "color" },
+    },
+    {
+      name: "text",
+      label: "文字內容",
+      type: "string",
+      ui: { component: "textarea" },
+      required: true,
+    },
+  ],
+};
 
 export default defineConfig({
-  branch,
+  branch: process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "main",
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "",
-  token: process.env.TINA_TOKEN || "", // 這裡修正了原本少掉的一個雙引號
+  token: process.env.TINA_TOKEN || "",
 
   build: {
     outputFolder: "admin",
     publicFolder: "public",
   },
-  // ✨ 關鍵：確保這幾行存在，並確認 mediaRoot 設定正確
   media: {
     tina: {
-      mediaRoot: "images", // 這代表你的圖片會存在 public/images/
+      mediaRoot: "images", 
       publicFolder: "public",
     },
   },
+
   schema: {
     collections: [
+      {
+        name: "category",
+        label: "Categories (分類管理)",
+        path: "src/content/category",
+        format: "json",
+        fields: [
+          {
+            type: "string",
+            name: "title",
+            label: "分類名稱",
+            isTitle: true,
+            required: true,
+          },
+        ],
+      },
       {
         name: "portfolio",
         label: "UX Portfolio",
         path: "src/content/portfolio",
-        format: "mdx",
+        format: "mdx", 
         fields: [
-          { type: "string", name: "title", label: "Project Title", isTitle: true, required: true },
-          { type: "datetime", name: "date", label: "Project Date" },
-          { type: "string", name: "description", label: "Short Description", ui: { component: "textarea" } },
-          { type: "image", name: "heroImage", label: "Cover Image" }, // TinaCMS 會自動處理路徑
-          { type: "string", name: "tags", label: "Tags", list: true },
-          { type: "rich-text", name: "body", label: "Case Study Content", isBody: true },
+          { type: "string", name: "title", label: "Title", isTitle: true, required: true },
+          { type: "string", name: "description", label: "Description", ui: { component: "textarea" } },
+          { type: "image", name: "heroImage", label: "Hero Image" },
+          { type: "string", name: "heroImageAlt", label: "Image Alt Text (SEO)" },
+          {
+            type: "reference",
+            name: "category",
+            label: "專案分類",
+            collections: ["category"], // ✨ 修正：必須是陣列
+          },
+          {
+            type: "rich-text",
+            name: "body",
+            label: "Case Study Content",
+            isBody: true,
+            templates: [calloutTemplate], 
+          },
         ],
       },
-      // ... 其餘設定
+      {
+        name: "blog",
+        label: "Blog Posts",
+        path: "src/content/blog",
+        format: "mdx", 
+        fields: [
+          { type: "string", name: "title", label: "Post Title", isTitle: true, required: true },
+          { type: "datetime", name: "date", label: "Publish Date", required: true },
+          { type: "image", name: "heroImage", label: "Cover Image" },
+          { type: "string", name: "heroImageAlt", label: "Image Alt Text (SEO)" },
+          {
+            type: "reference",
+            name: "category",
+            label: "文章分類",
+            collections: ["category"], // ✨ 修正：必須是陣列
+          },
+          { type: "string", name: "excerpt", label: "Excerpt (文章摘要)", ui: { component: "textarea" } },
+          {
+            type: "rich-text",
+            name: "body",
+            label: "Blog Content",
+            isBody: true,
+            templates: [calloutTemplate], 
+          },
+        ],
+      },
     ],
   },
 });

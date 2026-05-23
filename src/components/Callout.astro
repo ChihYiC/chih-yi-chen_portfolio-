@@ -1,0 +1,18 @@
+---
+// src/components/Callout.astro
+interface Props {
+  color?: string; // 從 type 改成 color
+  text: string;
+}
+
+// 設定一個預設的淺灰色碼，以防後台忘記選顏色
+const { color = "#E2E8F0", text } = Astro.props;
+---
+
+{/* 使用 inline style 將後台選的 HEX 色碼動態注入 */}
+<div 
+  class="my-8 p-6 rounded-xl border-l-4 shadow-sm text-slate"
+  style={`background-color: ${color}33; border-color: ${color};`}
+>
+  <p class="m-0 font-body text-lg leading-relaxed">{text}</p>
+</div>
