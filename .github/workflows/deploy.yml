@@ -20,14 +20,19 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # 明確指定版本
+          node-version: 20
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
         
+      # 👇 這一段才是要加到 .github/workflows/deploy.yml 的！
       - name: Build
         run: npm run build
-        
+        env:
+          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
+          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
+      # 👆 結束
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

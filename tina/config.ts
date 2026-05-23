@@ -9,8 +9,8 @@ const branch =
 export default defineConfig({
   branch,
   // 本地端開發不需要 Client ID 與 Token，未來部署到 GitHub 時才會用到
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "",
-  token: process.env.TINA_TOKEN || "",
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "a4438f2f-3ba4-4b0b-a879-be9166cfe258",
+  token: process.env.TINA_TOKEN || "0583363a99581ae5905455a8d63bbe19f154b744",
 
   build: {
     outputFolder: "admin",
