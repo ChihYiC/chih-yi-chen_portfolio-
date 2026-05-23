@@ -1,9 +1,18 @@
 ---
+// src/pages/portfolio/[slug].astro
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-// ... getStaticPaths 邏輯保持不變 ...
+// 關鍵函式：在靜態打包時預先生成所有專案頁面
+export async function getStaticPaths() {
+  const projects = await getCollection('portfolio');
+  return projects.map((project) => ({
+    params: { slug: project.id }, 
+    props: { project },
+  }));
+}
 
+// 取得傳入的專案資料
 const { project } = Astro.props;
 const { Content } = await render(project);
 const base = import.meta.env.BASE_URL;
@@ -11,16 +20,17 @@ const base = import.meta.env.BASE_URL;
 
 <BaseLayout title={`${project.data.title} | Sophie Chen`}>
   <article class="max-w-4xl mx-auto py-12 px-6">
+    {/* 返回連結：使用 base 確保路徑正確 */}
     <a href={base + 'portfolio'} class="text-secondary font-semibold hover:underline mb-8 block">← Back to Portfolio</a>
     
     <h1 class="text-4xl font-bold mb-6 text-primary">{project.data.title}</h1>
     
-    {/* ✨ 關鍵修改：確保這裡是用 project.data.heroImage，而不是 src */}
+    {/* 圖片渲染：確保路徑加上 base，並移除開頭斜線 */}
     {project.data.heroImage && (
       <img 
         src={base + project.data.heroImage.replace(/^\//, '')} 
         alt={project.data.title} 
-        class="w-full h-auto rounded-xl mb-8"
+        class="w-full h-auto rounded-xl mb-8 shadow-sm"
       />
     )}
     
