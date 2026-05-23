@@ -2,10 +2,13 @@
 // src/layouts/BaseLayout.astro
 import '../styles/global.css'; 
 
-// ✨ 1. 匯入位於 src/assets 的圖片
+// 匯入 favicon
 import favicon from '../assets/favicon.png'; 
 
 const { title = "Sophie Chen | UX Researcher & Designer" } = Astro.props;
+
+// 定義 base 路徑，自動對應 GitHub Pages 的子目錄
+const base = import.meta.env.BASE_URL;
 ---
 
 <!DOCTYPE html>
@@ -30,26 +33,25 @@ const { title = "Sophie Chen | UX Researcher & Designer" } = Astro.props;
     <header class="w-full bg-white shadow-sm sticky top-0 z-50">
       <nav class="max-w-5xl mx-auto px-6 py-6 flex justify-between items-center">
         
-        <a href="/" class="flex items-center gap-3 group">
-          {/* ✨ 引入優化後的 favicon */}
+        {/* 使用 base 變數確保點擊 Logo 回到首頁的路徑正確 */}
+        <a href={base} class="flex items-center gap-3 group">
           <img 
             src={favicon.src} 
             alt="Sophie Chen Logo" 
             class="w-10 h-10 rounded-full border border-slate/10 group-hover:scale-105 transition-transform"
           />
-          {/* ✨ 加上縮小後的名字，增加辨識度 */}
           <span class="text-xl font-heading font-bold text-primary tracking-tight">
             Chih Yi Chen.
           </span>
         </a>
 
-        {/* 導覽列連結不變 */}
+        {/* 導覽列連結：統一使用 base + '路徑' */}
         <ul class="flex gap-8 text-sm font-heading font-semibold text-slate">
-          <li><a href="/" class="hover:text-secondary transition-colors duration-200">Home</a></li>
-          <li><a href="/about" class="hover:text-secondary transition-colors duration-200">About</a></li>
-          <li><a href="/portfolio" class="hover:text-secondary transition-colors duration-200">UX Portfolio</a></li>
-          <li><a href="/blog" class="hover:text-secondary transition-colors duration-200">Blog</a></li>
-          <li><a href="/contact" class="hover:text-secondary transition-colors duration-200">Contact</a></li>
+          <li><a href={base} class="hover:text-secondary transition-colors duration-200">Home</a></li>
+          <li><a href={base + 'about'} class="hover:text-secondary transition-colors duration-200">About</a></li>
+          <li><a href={base + 'portfolio'} class="hover:text-secondary transition-colors duration-200">UX Portfolio</a></li>
+          <li><a href={base + 'blog'} class="hover:text-secondary transition-colors duration-200">Blog</a></li>
+          <li><a href={base + 'contact'} class="hover:text-secondary transition-colors duration-200">Contact</a></li>
         </ul>
       </nav>
     </header>
@@ -65,7 +67,6 @@ const { title = "Sophie Chen | UX Researcher & Designer" } = Astro.props;
           © {new Date().getFullYear()} Chih Yi (Sophie) Chen.
         </p>
 
-        {/* ✨ 使用 Font Awesome 線條圖示 */}
         <div class="flex gap-6">
           <a href="mailto:chih.yi.chen0814@gmail.com" class="text-primary hover:text-secondary transition-all hover:-translate-y-1">
             <i class="fa-regular fa-envelope text-xl"></i>
