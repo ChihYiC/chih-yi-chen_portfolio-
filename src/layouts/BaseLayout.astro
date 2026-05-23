@@ -9,7 +9,7 @@ interface Props {
 const { title = "Chih Yi Chen | Integrated Marketer & UX Researcher" } = Astro.props;
 // 直接在這裡取得 base
 const base = import.meta.env.BASE_URL || "/"; 
-const faviconPath = "/favicon.png";
+const faviconPath = base + "favicon.png";
 ---
 
 
