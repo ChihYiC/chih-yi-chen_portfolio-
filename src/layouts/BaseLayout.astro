@@ -1,13 +1,17 @@
 ---
 // src/layouts/BaseLayout.astro
 import '../styles/global.css'; 
-import favicon from '../assets/favicon.png'; 
 
-// 顯式定義變數，避免編譯時無法解析物件屬性
-const faviconPath = favicon.src; 
-const { title = "Sophie Chen | UX Researcher & Designer" } = Astro.props;
-const base = import.meta.env.BASE_URL;
+interface Props {
+  title?: string;
+}
+
+const { title = "Chih Yi Chen | Integrated Marketer & UX Researcher" } = Astro.props;
+// 直接在這裡取得 base
+const base = import.meta.env.BASE_URL || "/"; 
+const faviconPath = "/favicon.png";
 ---
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +20,7 @@ const base = import.meta.env.BASE_URL;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <link rel="icon" type="image/png" href={faviconPath} />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  </head>
+    </head>
   
   <body class="bg-surface text-slate font-body antialiased min-h-screen flex flex-col">
     <header class="w-full bg-white shadow-sm sticky top-0 z-50">
@@ -26,12 +29,11 @@ const base = import.meta.env.BASE_URL;
         <a href={base} class="flex items-center gap-3 group">
           <img 
             src={faviconPath} 
-            alt="Sophie Chen Logo" 
-            class="w-10 h-10 rounded-full border border-slate/10 group-hover:scale-105 transition-transform"
+            alt="Logo" 
+            class="w-10 h-10 rounded-full"
           />
-          <span class="text-xl font-heading font-bold text-primary tracking-tight">Chih Yi Chen.</span>
+          <span class="text-xl font-bold text-primary">Chih Yi Chen.</span>
         </a>
-
         <ul class="flex gap-8 text-sm font-heading font-semibold text-slate">
           <li><a href={base} class="hover:text-secondary">Home</a></li>
           <li><a href={base + 'about'} class="hover:text-secondary">About</a></li>

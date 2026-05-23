@@ -1,8 +1,7 @@
 ---
 // src/pages/about.astro
+// ✨ 關鍵：一定要在這裡匯入 BaseLayout！
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const base = import.meta.env.BASE_URL; // 統一管理路徑變數
 ---
 
 <BaseLayout title="About | Chih Yi Chen">
@@ -16,10 +15,6 @@ const base = import.meta.env.BASE_URL; // 統一管理路徑變數
       <p>
         My background combines integrated marketing strategy, UX research, and human-centered AI, giving me a cross-disciplinary lens on how digital systems communicate with people.
       </p>
-    </div>
-    
-    <div class="mt-8">
-      <a href={base} class="text-secondary font-semibold hover:underline">← Back to Home</a>
     </div>
   </section>
 
