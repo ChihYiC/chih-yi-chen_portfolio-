@@ -1,0 +1,50 @@
+---
+// src/pages/about.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About | Chih Yi Chen">
+  
+  <section class="py-16 animate-fade-in">
+    <h1 class="text-4xl font-heading font-bold text-primary mb-6 tracking-tight">Hi, I’m Chih Yi Chen.</h1>
+    <div class="text-lg text-slate max-w-3xl leading-relaxed font-body space-y-6">
+      <p>
+        I’m an Integrated Marketer and HCI Researcher exploring how people perceive, interpret, and interact with digital content, AI-generated media, and online experiences.
+      </p>
+      <p>
+        My background combines integrated marketing strategy, UX research, and human-centered AI, giving me a cross-disciplinary lens on how digital systems communicate with people.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-12 border-t border-slate/10">
+    <h2 class="text-2xl font-heading font-bold text-primary mb-10 tracking-tight">Core Competencies</h2>
+    
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate/5 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-accent/50 rounded-xl flex items-center justify-center text-primary font-bold mb-6">01</div>
+        <h3 class="text-xl font-bold text-primary mb-3">Integrated Marketing</h3>
+        <p class="text-sm text-slate/80 leading-relaxed">
+          Campaign strategy, content marketing, SEO, data analysis, and audience engagement across online and offline channels.
+        </p>
+      </div>
+
+      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate/5 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-accent/50 rounded-xl flex items-center justify-center text-primary font-bold mb-6">02</div>
+        <h3 class="text-xl font-bold text-primary mb-3">HCI Research</h3>
+        <p class="text-sm text-slate/80 leading-relaxed">
+          AI transparency, qualitative analysis, human-AI interaction, and online trust.
+        </p>
+      </div>
+
+      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate/5 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-accent/50 rounded-xl flex items-center justify-center text-primary font-bold mb-6">03</div>
+        <h3 class="text-xl font-bold text-primary mb-3">UX Research & Design</h3>
+        <p class="text-sm text-slate/80 leading-relaxed">
+          User research, wireframing, prototyping, usability testing, and interface evaluation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

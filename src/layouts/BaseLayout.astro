@@ -1,0 +1,83 @@
+---
+// src/layouts/BaseLayout.astro
+import '../styles/global.css'; 
+
+// ✨ 1. 匯入位於 src/assets 的圖片
+import favicon from '../assets/favicon.png'; 
+
+const { title = "Sophie Chen | UX Researcher & Designer" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>{title}</title>
+
+    <link rel="icon" type="image/png" href={favicon.src} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </head>
+  
+  <body class="bg-surface text-slate font-body antialiased selection:bg-accent selection:text-primary min-h-screen flex flex-col">
+    
+    <header class="w-full bg-white shadow-sm sticky top-0 z-50">
+      <nav class="max-w-5xl mx-auto px-6 py-6 flex justify-between items-center">
+        
+        <a href="/" class="flex items-center gap-3 group">
+          {/* ✨ 引入優化後的 favicon */}
+          <img 
+            src={favicon.src} 
+            alt="Sophie Chen Logo" 
+            class="w-10 h-10 rounded-full border border-slate/10 group-hover:scale-105 transition-transform"
+          />
+          {/* ✨ 加上縮小後的名字，增加辨識度 */}
+          <span class="text-xl font-heading font-bold text-primary tracking-tight">
+            Chih Yi Chen.
+          </span>
+        </a>
+
+        {/* 導覽列連結不變 */}
+        <ul class="flex gap-8 text-sm font-heading font-semibold text-slate">
+          <li><a href="/" class="hover:text-secondary transition-colors duration-200">Home</a></li>
+          <li><a href="/about" class="hover:text-secondary transition-colors duration-200">About</a></li>
+          <li><a href="/portfolio" class="hover:text-secondary transition-colors duration-200">UX Portfolio</a></li>
+          <li><a href="/blog" class="hover:text-secondary transition-colors duration-200">Blog</a></li>
+          <li><a href="/contact" class="hover:text-secondary transition-colors duration-200">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto px-6 py-16 w-full">
+      <slot />
+    </main>
+
+    <footer class="w-full bg-white border-t border-slate/10 py-10">
+      <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+        
+        <p class="text-sm text-slate/60 font-heading">
+          © {new Date().getFullYear()} Chih Yi (Sophie) Chen.
+        </p>
+
+        {/* ✨ 使用 Font Awesome 線條圖示 */}
+        <div class="flex gap-6">
+          <a href="mailto:chih.yi.chen0814@gmail.com" class="text-primary hover:text-secondary transition-all hover:-translate-y-1">
+            <i class="fa-regular fa-envelope text-xl"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/chih-yi-chen0814" target="_blank" class="text-primary hover:text-secondary transition-all hover:-translate-y-1">
+            <i class="fa-brands fa-linkedin-in text-xl"></i>
+          </a>
+          <a href="https://github.com/ChihYiC?tab=repositories" target="_blank" class="text-primary hover:text-secondary transition-all hover:-translate-y-1">
+            <i class="fa-brands fa-github text-xl"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
