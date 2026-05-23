@@ -25,11 +25,13 @@ const base = import.meta.env.BASE_URL; // 取得正確的基礎路徑
         <a href={base + `portfolio/${project.id}`} class="group bg-white rounded-2xl shadow-sm border border-slate/5 overflow-hidden hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col">
           <div class="h-56 bg-accent/30 flex items-center justify-center border-b border-slate/5 overflow-hidden relative">
             {project.data.heroImage ? (
-              // 修正圖片路徑：移除開頭斜線並加上 base
-              <img src={base + project.data.heroImage.replace(/^\//, '')} alt={project.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-            ) : (
-              <span class="text-xs font-mono text-primary/60 tracking-wider">[ Case Study Image ]</span>
-            )}
+                <img 
+                src={base + project.data.heroImage.replace(/^\//, '')} 
+                alt={project.data.title} 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                />
+                ) : (
+                    <span class="text-xs font-mono text-primary/60 tracking-wider">[ Case Study Image ]</span>)}
           </div>
           <div class="p-6 flex-grow flex flex-col justify-between">
             <div>
