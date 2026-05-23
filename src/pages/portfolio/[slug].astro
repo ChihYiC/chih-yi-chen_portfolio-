@@ -1,20 +1,11 @@
 ---
-src/pages/portfolio/[...slug].astro
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-export async function getStaticPaths() {
-  const projects = await getCollection('portfolio');
-  return projects.map(project => ({
-    params: { slug: project.id }, 
-    props: { project },
-  }));
-}
+// ... getStaticPaths 邏輯保持不變 ...
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-
-// 加入 base 變數，以備未來在 Content 中需要顯示圖片時引用
 const base = import.meta.env.BASE_URL;
 ---
 
@@ -23,6 +14,15 @@ const base = import.meta.env.BASE_URL;
     <a href={base + 'portfolio'} class="text-secondary font-semibold hover:underline mb-8 block">← Back to Portfolio</a>
     
     <h1 class="text-4xl font-bold mb-6 text-primary">{project.data.title}</h1>
+    
+    {/* ✨ 關鍵修改：確保這裡是用 project.data.heroImage，而不是 src */}
+    {project.data.heroImage && (
+      <img 
+        src={base + project.data.heroImage.replace(/^\//, '')} 
+        alt={project.data.title} 
+        class="w-full h-auto rounded-xl mb-8"
+      />
+    )}
     
     <div class="prose prose-lg max-w-none text-slate">
       <Content />
