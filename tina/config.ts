@@ -79,22 +79,24 @@ export default defineConfig({
           },
         ],
       },
-      {
-        name: "research",
-        label: "Research",
-        path: "src/content/research",
-        format: "mdx",
-        fields: [
-          { type: "string", name: "title", label: "Title", isTitle: true, required: true },
-          {
-            type: "rich-text",
-            name: "body",
-            label: "Research Findings",
-            isBody: true,
-            templates: [calloutTemplate],
-          },
-        ],
-      },
+     {
+  name: "research",
+  label: "Research",
+  path: "src/content/research",
+  format: "mdx",
+  fields: [
+    { type: "string", name: "title", label: "Title", isTitle: true, required: true },
+    { type: "string", name: "publication", label: "Publication" }, // ✨ 新增這一行
+    { type: "string", name: "methodology", label: "Methodology" },
+    {
+      type: "rich-text",
+      name: "body",
+      label: "Research Findings",
+      isBody: true,
+      templates: [calloutTemplate],
+    },
+  ],
+},
       {
         name: "blog",
         label: "Blog Posts",

@@ -6,6 +6,18 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const allResearch = await getCollection('research');
 const base = import.meta.env.BASE_URL;
+
+// ✨ 這裡是你專屬的 Publication 資料庫，未來有新發表只要在這裡往下新增即可
+const publications = [
+  {
+    title: "Disclosed or Not Disclosed? Investigating Gaps in AI Disclosure Practice in Children’s Picture Books on Amazon",
+    authors: "Chih Yi Chen",
+    venue: "Master's Thesis, Pennsylvania State University",
+    year: "2026",
+    status: "Published",
+    link: "#" // 未來可以放上 PDF 連結
+  },
+];
 ---
 
 <BaseLayout title="Research Insights | Chih Yi Chen">
@@ -13,42 +25,79 @@ const base = import.meta.env.BASE_URL;
     <Breadcrumbs />
     
     <header class="mb-12 mt-6">
-      <h1 class="text-4xl md:text-5xl font-bold text-primary mb-4">Research Insights</h1>
+      <h1 class="text-4xl md:text-5xl font-bold text-primary mb-4">Research</h1>
       <p class="text-lg text-slate/70 max-w-2xl">
         Investigating human-computer interaction, AI transparency, and user behaviors through rigorous mixed-methods research.
       </p>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {allResearch.map((item) => (
-        <a 
-          href={`${base}research/${item.id}`} 
-          class="group block bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate/10 flex flex-col h-full p-8"
-        >
-          <div class="flex flex-col flex-grow">
-            <span class="text-xs font-semibold tracking-wider text-secondary uppercase mb-3">
-              Academic Research
-            </span>
-            
-            <h2 class="text-2xl font-bold text-primary mb-3 group-hover:text-secondary transition-colors">
-              {item.data.title}
-            </h2>
-            
-            {item.data.methodology && (
-              <p class="text-slate/70 mb-6">
-              <span class="font-semibold text-slate">Methodology:</span> {item.data.methodology}
-              </p>
+    {/* 區塊 1：Research Projects (維持原本的卡片網格) */}
+    <section class="mb-20">
+      <h2 class="text-2xl font-bold text-primary mb-6">Selected Projects</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {allResearch.map((item) => (
+          <a 
+            href={`${base}research/${item.id}`} 
+            class="group block bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate/10 flex flex-col h-full p-8"
+          >
+            <div class="flex flex-col flex-grow">
+              <span class="text-[10px] font-semibold tracking-wider text-secondary bg-secondary/10 w-fit px-2.5 py-0.5 rounded-full uppercase mb-3">
+                Mixed-Methods
+              </span>
+              
+              <h3 class="text-2xl font-bold text-primary mb-3 group-hover:text-secondary transition-colors">
+                {item.data.title}
+              </h3>
+              
+              {item.data.methodology && (
+                <p class="text-slate/70 mb-6 text-sm leading-relaxed">
+                  <span class="font-semibold text-slate">Methodology:</span> {item.data.methodology}
+                </p>
               )}
-            
-            <div class="mt-auto pt-4 border-t border-slate/5 text-sm font-semibold text-secondary group-hover:underline flex items-center gap-2">
-              Read Full Research
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
+              
+              <div class="mt-auto pt-4 border-t border-slate/5 text-sm font-semibold text-secondary group-hover:underline flex items-center gap-2">
+                Read Research &rarr;
+              </div>
             </div>
-          </div>
-        </a>
-      ))}
-    </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {/* ✨ 區塊 2：Publications 條列式清單 */}
+    <section>
+      <h2 class="text-2xl font-bold text-primary mb-6 border-b border-slate/10 pb-4">Publications</h2>
+      <ul class="flex flex-col gap-6">
+        {publications.map((pub) => (
+          <li class="group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate/10">
+            {/* 年份 */}
+            <div class="text-slate/50 font-heading font-bold sm:w-16 shrink-0">
+              {pub.year}
+            </div>
+            
+            {/* 論文資訊 */}
+            <div class="flex flex-col gap-1.5">
+              <a href={pub.link} class="text-lg font-bold text-primary group-hover:text-secondary transition-colors leading-snug">
+                {pub.title}
+              </a>
+              <p class="text-sm text-slate">
+                {pub.authors}
+              </p>
+              <div class="flex flex-wrap items-center gap-3 mt-1">
+                <span class="text-sm italic text-slate/70">
+                  {pub.venue}
+                </span>
+                {pub.status && (
+                  <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border border-slate/20 text-slate/60">
+                    {pub.status}
+                  </span>
+                )}
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+    
   </div>
 </BaseLayout>
