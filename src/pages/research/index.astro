@@ -1,0 +1,54 @@
+---
+// src/pages/research/index.astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const allResearch = await getCollection('research');
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="Research Insights | Chih Yi Chen">
+  <div class="max-w-5xl mx-auto py-12 px-6">
+    <Breadcrumbs />
+    
+    <header class="mb-12 mt-6">
+      <h1 class="text-4xl md:text-5xl font-bold text-primary mb-4">Research Insights</h1>
+      <p class="text-lg text-slate/70 max-w-2xl">
+        Investigating human-computer interaction, AI transparency, and user behaviors through rigorous mixed-methods research.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {allResearch.map((item) => (
+        <a 
+          href={`${base}research/${item.id}`} 
+          class="group block bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate/10 flex flex-col h-full p-8"
+        >
+          <div class="flex flex-col flex-grow">
+            <span class="text-xs font-semibold tracking-wider text-secondary uppercase mb-3">
+              Academic Research
+            </span>
+            
+            <h2 class="text-2xl font-bold text-primary mb-3 group-hover:text-secondary transition-colors">
+              {item.data.title}
+            </h2>
+            
+            {item.data.methodology && (
+              <p class="text-slate/70 mb-6">
+              <span class="font-semibold text-slate">Methodology:</span> {item.data.methodology}
+              </p>
+              )}
+            
+            <div class="mt-auto pt-4 border-t border-slate/5 text-sm font-semibold text-secondary group-hover:underline flex items-center gap-2">
+              Read Full Research
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

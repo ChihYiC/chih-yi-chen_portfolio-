@@ -1,34 +1,28 @@
 ---
-// src/pages/portfolio/[slug].astro
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-// ✨ 1. 匯入功能元件
 import Callout from '../../components/Callout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// 關鍵函式：在靜態打包時預先生成所有專案頁面
 export async function getStaticPaths() {
-  const projects = await getCollection('portfolio');
+  const projects = await getCollection('projects');
   return projects.map((project) => ({
-    params: { slug: project.id }, 
+    params: { slug: project.id },
     props: { project },
   }));
 }
 
-// 取得傳入的專案資料
 const { project } = Astro.props;
 const { Content } = await render(project);
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title={`${project.data.title} | Chih Yi Chen`}>
+<BaseLayout title={`${project.data.title} | Projects`}>
   <article class="max-w-4xl mx-auto py-12 px-6">
-    {/* ✨ 2. 引入麵包屑導覽，取代原本單一的返回連結 */}
     <Breadcrumbs />
     
     <h1 class="text-4xl font-bold mb-6 text-primary">{project.data.title}</h1>
     
-    {/* 圖片渲染：確保路徑加上 base，並移除開頭斜線 */}
     {project.data.heroImage && (
       <img 
         src={base + project.data.heroImage.replace(/^\//, '')} 
@@ -38,7 +32,6 @@ const base = import.meta.env.BASE_URL;
     )}
     
     <div class="prose prose-lg max-w-none text-slate">
-      {/* ✨ 3. 將 Callout 元件註冊給 Content 解析器，支援後台自由調色盤 */}
       <Content components={{ Callout }} />
     </div>
   </article>

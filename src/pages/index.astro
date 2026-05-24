@@ -5,7 +5,8 @@ import { Image } from 'astro:assets';
 import avatarImage from '../assets/avatar.png'; 
 import { getCollection } from 'astro:content';
 
-const projects = await getCollection('portfolio');
+// ✨ 1. 修正集合名稱：將 'portfolio' 改為 'projects'
+const projects = await getCollection('projects');
 const base = import.meta.env.BASE_URL;
 ---
 
@@ -28,7 +29,9 @@ const base = import.meta.env.BASE_URL;
           Hi, I’m Chih Yi Chen. My work bridges integrated marketing strategy, UX research, and human-centered AI to understand how digital systems communicate with people.
         </p>
         <div class="flex flex-wrap gap-4 mt-2">
-          <a href={base + 'portfolio'} class="bg-primary text-white font-heading font-semibold px-6 py-3 rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-sm">View UX Portfolio</a>
+          {/* ✨ 2. 更新按鈕路徑，並加入 Research 按鈕 */}
+          <a href={base + 'projects'} class="bg-primary text-white font-heading font-semibold px-6 py-3 rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-sm">View Projects</a>
+          <a href={base + 'research'} class="bg-secondary text-white font-heading font-semibold px-6 py-3 rounded-lg hover:bg-secondary/90 transition-all duration-200 shadow-sm">View Research</a>
           <a href={base + 'cv'} class="bg-white border border-slate/20 text-slate font-heading font-semibold px-6 py-3 rounded-lg hover:bg-surface transition-all duration-200 shadow-sm">Download CV</a>
         </div>
       </div>
@@ -62,7 +65,8 @@ const base = import.meta.env.BASE_URL;
         <h2 class="text-2xl font-heading font-bold text-primary tracking-tight">Featured UX Projects</h2>
         <p class="text-sm text-slate/50 mt-1">Scroll to explore my recent work</p>
       </div>
-      <a href={base + 'portfolio'} class="text-sm font-semibold text-secondary hover:underline font-heading">View All →</a>
+      {/* ✨ 3. 修正 View All 的路徑 */}
+      <a href={base + 'projects'} class="text-sm font-semibold text-secondary hover:underline font-heading">View All →</a>
     </div>
 
     <div class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory no-scrollbar">
@@ -71,7 +75,8 @@ const base = import.meta.env.BASE_URL;
       ) : (
         projects.map((project) => (
           <div class="min-w-[300px] md:min-w-[450px] snap-center">
-            <a href={`${base}portfolio/${project.id}`} class="group flex flex-col bg-white rounded-2xl shadow-sm border border-slate/5 overflow-hidden hover:shadow-md transition-all duration-300 h-full">
+            {/* ✨ 4. 修正個別專案卡片的動態路徑 */}
+            <a href={`${base}projects/${project.id}`} class="group flex flex-col bg-white rounded-2xl shadow-sm border border-slate/5 overflow-hidden hover:shadow-md transition-all duration-300 h-full">
               <div class="h-48 md:h-64 bg-accent/30 overflow-hidden relative">
                 {project.data.heroImage ? (
                   <img src={base + project.data.heroImage.replace(/^\//, '')} alt={project.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />

@@ -2,34 +2,27 @@
 import { z, defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-// Portfolio Collection
-const portfolioCollection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/portfolio" }),
-
-  schema: z.object({
-    title: z.string().default('Untitled Project'),
-    description: z.any().optional(),
-    heroImage: z.any().optional(),
-    tags: z.any().optional(),
-    date: z.any().optional(),
-  }).catchall(z.any()),
+// 1. 定義 Projects
+const projectsCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/projects" }),
+  schema: z.object({ title: z.string().default('Untitled Project') }).catchall(z.any()),
 });
 
-// Blog Collection
+// 2. 定義 Research
+const researchCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/research" }),
+  schema: z.object({ title: z.string().default('Untitled Research') }).catchall(z.any()),
+});
+
+// 3. 定義 Blog
 const blogCollection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
-
-  schema: z.object({
-    title: z.string().default('Untitled Blog Post'),
-    description: z.any().optional(),
-    pubDate: z.any().optional(),
-    category: z.any().optional(),
-    tags: z.any().optional(),
-    heroImage: z.any().optional(),
-  }).catchall(z.any()),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/blog" }),
+  schema: z.object({ title: z.string().default('Untitled Blog Post') }).catchall(z.any()),
 });
 
+// ✨ 確保這裡的名稱與上面宣告的一致
 export const collections = {
-  portfolio: portfolioCollection,
+  projects: projectsCollection, // 使用正確的變數名
+  research: researchCollection,
   blog: blogCollection,
 };

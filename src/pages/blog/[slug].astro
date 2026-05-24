@@ -3,14 +3,14 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Callout from '../../components/Callout.astro';
-// ✨ 1. 確保有這行匯入麵包屑元件
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// 靜態打包時預先生成所有文章頁面
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
+  
   return posts.map((post) => ({
-    params: { slug: post.id },
+    // ✨ 強制將網址轉為小寫，避免大小寫衝突
+    params: { slug: post.id.toLowerCase() },
     props: { post },
   }));
 }
@@ -20,29 +20,21 @@ const { Content } = await render(post);
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title={`${post.data.title} | Chih Yi Chen`}>
-  <article class="max-w-3xl mx-auto py-12 px-6">
-    {/* ✨ 2. 把麵包屑放在這裡 */}
+<BaseLayout title={`${post.data.title} | Blog`}>
+  <article class="max-w-4xl mx-auto py-12 px-6">
     <Breadcrumbs />
     
-    <header class="mb-10 mt-6 text-center">
-      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-primary leading-tight">{post.data.title}</h1>
-      <div class="flex justify-center items-center gap-4 text-slate/60 font-heading">
-        <time>
-          {new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </time>
-      </div>
-    </header>
+    <h1 class="text-4xl font-bold mb-6 text-primary">{post.data.title}</h1>
     
     {post.data.heroImage && (
       <img 
         src={base + post.data.heroImage.replace(/^\//, '')} 
         alt={post.data.title} 
-        class="w-full h-auto max-h-[450px] object-cover rounded-2xl mb-12 shadow-md"
+        class="w-full h-auto rounded-xl mb-8 shadow-sm"
       />
     )}
     
-    <div class="prose prose-lg prose-slate max-w-none">
+    <div class="prose prose-lg max-w-none text-slate">
       <Content components={{ Callout }} />
     </div>
   </article>

@@ -1,35 +1,32 @@
 ---
-// src/pages/portfolio/index.astro
+// src/pages/projects/index.astro
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-// ✨ 1. 匯入我們之前建立好的麵包屑元件
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// 取得所有作品集專案
-const projects = await getCollection('portfolio');
+// ✨ 1. 修正：改用 'projects' 集合
+const projects = await getCollection('projects'); 
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="UX Portfolio | Chih Yi Chen">
+<BaseLayout title="Projects | Chih Yi Chen">
   <div class="max-w-5xl mx-auto py-12 px-6">
-    {/* ✨ 2. 在頁面最上方加入麵包屑 */}
     <Breadcrumbs />
     
     <header class="mb-12 mt-6">
-      <h1 class="text-4xl md:text-5xl font-bold text-primary mb-4">UX Portfolio</h1>
+      <h1 class="text-4xl md:text-5xl font-bold text-primary mb-4">Projects</h1>
       <p class="text-lg text-slate/70 max-w-2xl">
         Exploring user experiences through empirical research, mixed-methods analysis, and human-centered design.
       </p>
     </header>
 
-    {/* 作品集網格卡片排版 */}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       {projects.map((project) => (
         <a 
-          href={`${base}portfolio/${project.id}`} 
+          // ✨ 2. 修正：路徑改為 /projects/
+          href={`${base}projects/${project.id}`} 
           class="group block bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate/10 flex flex-col h-full"
         >
-          {/* 專案首圖 */}
           {project.data.heroImage && (
             <div class="overflow-hidden h-56">
               <img 
@@ -40,9 +37,7 @@ const base = import.meta.env.BASE_URL;
             </div>
           )}
           
-          {/* 專案文字內容 */}
           <div class="p-6 flex flex-col flex-grow">
-            {/* 如果後台有勾選分類，這裡也會自動顯示分類標籤 */}
             {project.data.category && (
               <span class="text-xs font-semibold tracking-wider text-secondary uppercase mb-2">
                 UX Case Study

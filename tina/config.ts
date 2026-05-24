@@ -55,10 +55,10 @@ export default defineConfig({
         ],
       },
       {
-        name: "portfolio",
-        label: "UX Portfolio",
-        path: "src/content/portfolio",
-        format: "mdx", 
+        name: "projects", 
+        label: "Projects",
+        path: "src/content/projects",
+        format: "mdx",
         fields: [
           { type: "string", name: "title", label: "Title", isTitle: true, required: true },
           { type: "string", name: "description", label: "Description", ui: { component: "textarea" } },
@@ -68,7 +68,7 @@ export default defineConfig({
             type: "reference",
             name: "category",
             label: "專案分類",
-            collections: ["category"], // ✨ 修正：必須是陣列
+            collections: ["category"], 
           },
           {
             type: "rich-text",
@@ -80,10 +80,27 @@ export default defineConfig({
         ],
       },
       {
+        name: "research",
+        label: "Research",
+        path: "src/content/research",
+        format: "mdx",
+        fields: [
+          { type: "string", name: "title", label: "Title", isTitle: true, required: true },
+          {
+            type: "rich-text",
+            name: "body",
+            label: "Research Findings",
+            isBody: true,
+            templates: [calloutTemplate],
+          },
+        ],
+      },
+      {
         name: "blog",
         label: "Blog Posts",
         path: "src/content/blog",
         format: "mdx", 
+        // ✨ 已移除 router 區塊，關閉即時預覽
         fields: [
           { type: "string", name: "title", label: "Post Title", isTitle: true, required: true },
           { type: "datetime", name: "date", label: "Publish Date", required: true },
@@ -93,7 +110,7 @@ export default defineConfig({
             type: "reference",
             name: "category",
             label: "文章分類",
-            collections: ["category"], // ✨ 修正：必須是陣列
+            collections: ["category"], 
           },
           { type: "string", name: "excerpt", label: "Excerpt (文章摘要)", ui: { component: "textarea" } },
           {
